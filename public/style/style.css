@@ -1,0 +1,26 @@
+.bgcolormain {    
+    background-color: #4b7296;
+    
+}
+
+.bgcolormain2 {    
+    background-color: #8ca4ba;
+    
+}
+
+.hover:hover{
+    background-color: #6c859c;
+}
+
+.main-color{
+    color: #4b7296;
+}
+
+
+.loadBar{
+    background-color: red;
+    width: 100%;
+    height: 10px;
+}
+
+

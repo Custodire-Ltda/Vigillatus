@@ -1,0 +1,22 @@
+#delModal{
+    display: none;
+}
+
+.show{
+    /* Position */
+    display: flex !important;
+    position: absolute;
+    top:50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+}
+
+#delBtn{
+    background-color: red;
+    color: white;
+}
+
+#delBtn:disabled {
+    background-color: gray;
+    color: black;
+}

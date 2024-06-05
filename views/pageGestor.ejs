@@ -1,0 +1,109 @@
+<%- include('./partials/header', { pageName:'GESTOR' }) %>
+
+
+    <div id="loader"></div>
+
+    <div class="grid grid-cols-7">
+
+
+        <div class="col-start-1 col-span-1">
+            <%- include('./partials/menu') %>
+        </div>
+
+<!-- sm:flex sm:flex-col sm:ml-4 mr-4 -->
+        <div class="col-start-3 col-span-4 mx-2">
+            
+            
+                <h1 class="text-2xl font-bold my-8">Perfil do Gestor</h1>
+
+                
+                <div class="flex justify-center">
+                    <% if(gestorInfo.foto==null) { %>
+                        <img class="rounded-full border-6 border-white sm:fixed" style="width: 280px; height: 280px;" src="/img/profile/default.jpg"
+                            alt="">
+                        <% } else { %>
+                            <img class="rounded-full border-6 border-white sm:fixed" style="width: 280px; height: 280px;"
+                                src="/uploads/<%= gestorInfo.id %>/<%= gestorInfo.foto %>" alt="">
+                            <% } %>
+                </div>
+
+
+                <div class="bg-white rounded-xl px-2 py-2 sm:mt-36 flex flex-col items-center">
+                                <div>
+                    
+                                    <h1 class="text-4xl font-medium my-4 sm:mt-36"> 
+                                        <%= gestorInfo.nome %>
+                                    </h1>
+                                    <h3 class="text-xl mb-1">
+                                        <%= gestorInfo.email %>
+                                    </h3>
+                                    <h3 class="text-xl mb-1">
+                                        <%= gestorCargo.nome %>
+                                    </h3>
+                                    <h3 class="text-xl mb-4">
+                                        <%= gestorSetor.descricao %>
+                                    </h3>
+                                </div>  
+                                
+                                
+                                <div class="my-4">
+
+                                    <a href="/home/perfilGestor/edit">
+                                        <button
+                                            class="bgcolormain bg-opacity-50 hover text-white font-semibold rounded-md shadow-lg py-2 px-4 focus:outline-none">
+                                            EDITAR PERFIL
+                                        </button>
+                                    </a>
+    
+                                    <button
+                                        class="bg-red-500 hover:bg-red-400 text-white font-semibold rounded-md py-2 px-4 focus:outline-none transition-colors duration-300"
+                                        onclick="showModal()">DELETE
+                                    </button>
+                                </div>
+                                
+                </div>
+
+                            <div class="flex flex-col items-center my-4 ">
+
+                                                         
+                                
+                                <div id="delModal" class="w-3/5 h-1/2 rounded-lg border-4 border-gray-800">
+                                    <div class="flex flex-col w-full bg-gray-300 rounded">
+                                        <div class="flex flex-row justify-end px-5 py-2">
+                                            <button onclick="closeModal()">
+                                                <img class="h-8 w-8" src="/img/icons/x-lg.svg" alt="close icon">
+                                            </button>
+                                        </div>
+                                
+                                        <div class="flex flex-col h-full justify-center items-center">
+                                            <h1 class="text-2xl md:text-4xl font-bold mb-2">DESEJA DELETAR?</h1>
+                                            <p class="sm:text-xl ml-2 mb-2">Quer mesmo deletar o perfil e todas as informações armazenadas?</p>
+                                        </div>
+                                
+                                        <div class="flex flex-col px-5">
+                                            <p>Digite os números gerados:</p>
+                                            <p id="randomNum">
+                                                <!-- Gerando 6 números aleatórios -->
+                                            </p>
+                                            <input placeholder="Digite os número acima para poder prosseguir" type="text" id="checkInput" oninput="numCheck()">
+                                        </div>
+                                
+                                        <div class="flex flex-row h-full items-center justify-around">
+                                            <form action="/home/perfilGestor/edit/delete" method="post">
+                                                <button disabled='true' onclick="clicked()" id="delBtn">
+                                                    Quero deletar minhas informações!
+                                                </button>
+                                            </form>
+                                
+                                            <button onclick="closeModal()">
+                                                Não vou deletar minhas informações!
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        </div>
+    </div>
+            </body>
+
+            </html>

@@ -1,0 +1,85 @@
+<%- include('./partials/header', { gestorInfo: gestorInfo, pageName: 'Colaborador' }) %>
+
+<div id="loader"></div>
+
+<div class="grid grid-cols-7">
+
+    <div class="col-start-1 col-span-1">
+        <%- include('./partials/menu') %>
+    </div>
+
+    <div class="rounded-lg col-start-2 col-span-6 lg:col-start-3 lg:col-span-4 mx-2">
+
+        <h1 class="text-2xl font-bold text-gray-800 my-6">Colaborador</h1>
+
+        <% listColabInfo.forEach((colabInfo) => { %>
+            <div class="mb-4 flex justify-center">
+                <% if(colabInfo.foto == null) { %>
+                    <img src="/img/profile/default.jpg" alt="imagem de <%= colabInfo.nome %>" class="rounded-full border-6 border-white sm:fixed" style="width: 280px; height: 280px;">
+                <% } else { %>
+                    <img src="/uploads/<%= gestorInfo.id %>/colaboradores/<%= colabInfo.id %>/<%= colabInfo.foto %>" alt="Perfil <%= colabInfo.nome %>" class="rounded-full border-6 border-white sm:fixed" style="width: 280px; height: 280px;">
+                <% } %>
+            </div>
+        <% }); %>
+
+        <div class="bg-white rounded-xl px-2 py-2 sm:mt-36 flex flex-col items-center">
+
+            <% listColabInfo.forEach((colabInfo) => { %>
+                <h4 class="text-3xl font-semibold text-gray-700 my-4 sm:mt-36">
+                    <%= colabInfo.nome %>
+                </h4>
+            <% }); %>
+
+            <% listColabInfo.forEach((colabInfo) => { %>
+                <a href="editColab" class="text-blue-500 hover:underline">
+                    Editar perfil de <%= colabInfo.nome %>
+                </a>
+            <% }); %>
+
+        <div class="">
+            <button onclick="showModal()" class="bg-red-500 hover:bg-red-300 text-white font-semibold rounded-md px-4 py-2 my-4">
+                DELETAR COLABORADOR
+            </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div id="delModal" class="w-3/5 h-1/2 rounded-lg border-4 border-gray-800">
+    <div class="flex flex-col w-full bg-gray-300 rounded">
+
+        <div class="flex flex-row justify-end px-5 py-2">
+            <button onclick="closeModal()">
+                <img class="h-8 w-8" src="/img/icons/x-lg.svg" alt="close icon">
+            </button>
+        </div>
+
+        <div class="flex flex-col h-full justify-center items-center">
+            <h1 class="text-2xl md:text-4xl font-bold mb-2">DELETAR COLABORADOR?</h1>
+            <p class="sm:text-xl mb-4">Quer mesmo deletar o perfil do colaborador e todas as informações armazenadas?</p>
+        </div>
+
+        <div class="flex flex-col px-5">
+            <p>Digite os números gerados:</p>
+            <p id="randomNum">
+                <!-- Gerando 6 números aleatórios -->
+            </p>
+            <input placeholder="Digite os número acima para poder prosseguir" type="text" id="checkInput" oninput="numCheck()">
+        </div>
+
+        <div class="flex flex-row items-center justify-around py-4">
+            <form action="colabDelete" method="post">
+                <button disabled='true' id="delBtn" class="font-bold text-white bg-red-600 hover:bg-red-500 rounded px-4 py-2">
+                    Deletar Colaborador!
+                </button>
+            </form>
+
+            <button onclick="closeModal()" class="font-bold text-white bg-gray-500 hover:bg-gray-400 rounded px-4 py-2">
+                Não deletar Colaborador!
+            </button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
