@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> {} }: # nixpkgs 23.11
 pkgs.mkShell {
   buildInputs = with pkgs; [
     nodejs_20
