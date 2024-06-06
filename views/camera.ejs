@@ -17,7 +17,7 @@
                             <div id="webcam"></div>
                         </div>
                         <!-- Apresenta a taxa de acerto -->
-                        <div id="label-container" class="hidden"></div>
+                        <div id="label-container" class=""></div>
 
                         <div id="error-message"
                             class="flex items-center justify-center w-full h-full bg-black text-red-500 font-bold text-2xl hidden">
@@ -27,7 +27,7 @@
                         <script
                             src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
                         <script type="text/javascript">
-                            const URL = "https://teachablemachine.withgoogle.com/models/HxnbSyOD1/";
+                            const URL = "https://teachablemachine.withgoogle.com/models/v17OiNC3W/";
                             let model, webcam, labelContainer, maxPredictions;
 
                             async function init() {
@@ -44,8 +44,6 @@
                                     const flip = true;
                                     webcam = new tmImage.Webcam(900, 900, flip);
                                     await webcam.setup({
-                                        
-                                        "videoResolution": "1280x720",
                                         "frameRate": 60,
                                         "bitrate": 500000
                                     });
