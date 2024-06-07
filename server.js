@@ -81,6 +81,7 @@ async function insertInitialData() {
 
 //Rota para o a tela de login
 app.get('/', (req, res) => {
+
     res.render('index.ejs', { error: null });
     Setor;
     Cargo;
@@ -164,6 +165,7 @@ app.get('/', (req, res) => {
     } catch {
         console.log('FODEU DE VEZ')
     }
+
 });
 
 //Fazendo verificação básica para o usuário exevutar o login
@@ -204,6 +206,7 @@ app.post('/login', async (req, res) => {
             res.render('index.ejs', { error: 'Senha incorreta' });
         }
     }
+    
 });
 
 
