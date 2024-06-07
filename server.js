@@ -56,19 +56,114 @@ app.listen(port, () => {
     console.log(`Server on: http://localhost:${port}`);
 });
 
+/* Inserindo dados inicialmente */
+async function insertInitialData() {
+    try {
+        await Db.sequelize.sync();
+
+        console.log('ping')
+
+        // Inserir os cargos iniciais
+        await Cargo.create([
+            { nome: 'Tec. Segurança no trabalho', nivel: 1 },
+            { nome: 'Gestor', nivel: 1 },
+            { nome: 'Mecânico', nivel: 2 },
+            { nome: 'Soldador', nivel: 2 }
+        ]);
+
+        console.log('Dados iniciais inseridos com sucesso.');
+
+        console.log('pong')
+    } catch (error) {
+        console.error('Erro ao inserir dados iniciais:', error);
+    }
+}
+
 //Rota para o a tela de login
 app.get('/', (req, res) => {
     res.render('index.ejs', { error: null });
-    OcorrenciaNorma;
+    Setor;
+    Cargo;
     Norma;
+    EPI;
+    OcorrenciaNorma;
     Ocorrencia;
     Camera;
     SetorEpi;
-    EPI;
     Colaborador;
     Gestor;
-    Setor;
-    Cargo;
+
+    try {
+
+        async function initialInsert(){
+
+            /* Listando todas as cartas na tabela Cargo */
+            const existCargo = await Cargo.findAll();
+
+            /* Verificando se a tabela está vazia para então inserir os dados */
+            if (existCargo.length === 0) {
+                await Cargo.bulkCreate([
+                    { nome: 'Tec. Segurança no trabalho', nivel: 1 },
+                    { nome: 'Gestor', nivel: 1 },
+                    { nome: 'Mecânico', nivel: 2 },
+                    { nome: 'Soldador', nivel: 2 }
+                ]);
+
+                console.log('Cargos inseridos');
+            } else {
+                console.log('Cargos não inseridos');
+            }
+
+
+            const existSetores = await Setor.findAll();
+            if(existSetores.length === 0){
+                await Setor.bulkCreate([
+                    {descricao: 'Oficina'},
+                    {descricao: 'Caldeira'},
+                    {descricao: 'Carregamento'}
+                ]);
+
+                console.log('Setores inseridos');
+            }else{
+                console.log('Setores não inseridos');
+            };
+
+            const existEpi = await EPI.findAll();
+            if(existEpi.length === 0){
+                await EPI.bulkCreate([
+                    {descricao:'Capacete de segurança'},
+                    {descricao:'Luvas de segurança'},
+                    {descricao:'Óculos de segurança'},
+                    {descricao:'Bota de segurança'}
+                ]);
+
+                console.log('Epis inseridos');
+            }else{
+                console.log('Epis não inseridos');
+            };
+
+            const existNorma = await Norma.findAll();
+            if(existNorma.length === 0){
+                await Norma.bulkCreate([
+                    {
+                        descricao:'NR 6: Equipamento de Proteção Individual (EPI)',
+                        textoNotificacao:'Estabelece a obrigatoriedade do fornecimento gratuito de EPI adequado ao risco, em perfeito estado de conservação e funcionamento, aos trabalhadores.'
+                    }
+                ]);
+
+                console.log('Epis inseridos');
+            }else{
+                console.log('Epis não inseridos');
+            };
+        }
+
+        
+
+        initialInsert();
+        
+    } catch {
+        console.log('FODEU DE VEZ')
+    }
 });
 
 //Fazendo verificação básica para o usuário exevutar o login
