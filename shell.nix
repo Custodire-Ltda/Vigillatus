@@ -6,12 +6,13 @@ pkgs.mkShell {
   ];
 
   shellHook = ''
-    mkdir ./data
-    mkdir ./mysql_socket
+    mkdir ./temp_mysql
+    mkdir ./temp_mysql/data
+    mkdir ./temp_mysql/mysql_socket
 
-    mysqld --initialize-insecure --console --datadir="$PWD/data" --user="$WHOAMI" 
+    mysqld --initialize-insecure --console --datadir="$PWD/temp_mysql/data" --user="$WHOAMI" 
 
-    mysqld --datadir="$PWD/data" --socket="$PWD/mysql_socket/mysql.sock"
+    mysqld --datadir="$PWD/temp_mysql/data" --socket="$PWD/temp_mysql/mysql_socket/mysql.sock"
   '';
 
   # use mysql.sock in another terminal with mysql80:
