@@ -12,9 +12,14 @@
 
 <body class="h-screen w-screen flex items-center justify-center bgcolormain">    
 
-    <div class="text-red-500 absolute top-0 mt-2 bg-red-200 p-2 rounded border-2 border-red-500 ">
+
+    <% if(error){ %>
+    <div class="text-red-500 absolute top-0 mt-2 bg-red-200 p-2 rounded border-2 border-red-500">
         <%= error %>
     </div> 
+    <% }else{ %>
+
+    <% } %>
     
     <div class="bg-gray-200 shadow-md rounded-md p-8 items-center sm:flex justify-center mx-4 my-4">
 
@@ -22,7 +27,7 @@
 
         <div class="">
 
-            <h1 class="text-center mt-4 md:mt-0 font-medium">Cadastro</h1>    
+            <h1 class="text-center mt-4 md:mt-0 font-medium text-2xl">CADASTRO</h1>    
 
             <form action="/cadastrar/cadGestor" method="post" enctype="multipart/form-data">
 

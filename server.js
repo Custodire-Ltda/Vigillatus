@@ -23,6 +23,7 @@ const addColab = require('./controller/addColabController');
 const gestorEdit = require('./controller/gestorController');
 const colabEdit = require('./controller/colabController');
 const cameras = require('./controller/camController');
+const dashboard = require('./controller/graphController');
 
 /////{ CONFIGURAÇÕES }//////////////////////////////////////////////////////////////////////////////////
 
@@ -236,4 +237,6 @@ app.use('/home/addColab', addColab);
 app.use('/home/perfilGestor/edit', gestorEdit);
 
 //Rota para a tela de câmeras
-//app.use('/home/cameras', cameras)
+app.use('/home/cameras', cameras);
+
+app.use('/home/dashboard', dashboard);
