@@ -57,28 +57,7 @@ app.listen(port, () => {
     console.log(`Server on: http://localhost:${port}`);
 });
 
-/* Inserindo dados inicialmente */
-async function insertInitialData() {
-    try {
-        await Db.sequelize.sync();
 
-        console.log('ping')
-
-        // Inserir os cargos iniciais
-        await Cargo.create([
-            { nome: 'Tec. Segurança no trabalho', nivel: 1 },
-            { nome: 'Gestor', nivel: 1 },
-            { nome: 'Mecânico', nivel: 2 },
-            { nome: 'Soldador', nivel: 2 }
-        ]);
-
-        console.log('Dados iniciais inseridos com sucesso.');
-
-        console.log('pong')
-    } catch (error) {
-        console.error('Erro ao inserir dados iniciais:', error);
-    }
-}
 
 //Rota para o a tela de login
 app.get('/', (req, res) => {
@@ -95,6 +74,8 @@ app.get('/', (req, res) => {
     Colaborador;
     Gestor;
 
+
+    /* Inserindo dados inicialmente */
     try {
 
         async function initialInsert(){
@@ -157,6 +138,16 @@ app.get('/', (req, res) => {
             }else{
                 console.log('Epis não inseridos');
             };
+
+            const existCamera = await Camera.findAll();
+            if(existCamera.length === 0){
+                await Camera.bulkCreate([
+                    {
+                        descricao:"Camera 1",
+                        idSetor:1
+                    }
+                ]);
+            }
         }
 
         

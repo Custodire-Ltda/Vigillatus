@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res)=>{
+const Camera = require('../models/Camera');
+
+router.get('/', async(req, res)=>{
+
+    const listCamera = await Camera.findAll();
 
     const gestorInfo = req.session.user;
 

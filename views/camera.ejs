@@ -1,97 +1,100 @@
 <%- include('./partials/header', { gestorInfo: gestorInfo, pageName: 'Cameras' }) %>
 
-    <body class="">
+<body class="">
 
-        <div class="grid grid-cols-5 lg:grid-cols-6 xl:grid-cols-7">
+    <div class="grid grid-cols-5 lg:grid-cols-6 xl:grid-cols-7">
 
-            <div id="loader"></div>
+        <div id="loader"></div>
 
-            <%- include('partials/menu.ejs', {gestorInfo:gestorInfo})%>
-                <div class="col-start-3 col-span-4 grid grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-                    <!-- Main cam -->
-                    <div class="col-span-3 lg:col-span-4 xl:col-span-5 p-2">
+        <%- include('partials/menu.ejs', {gestorInfo:gestorInfo})%>
+        <div class="col-start-3 col-span-4 grid grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+            <!-- Main cam -->
+            <div class="col-span-3 lg:col-span-4 xl:col-span-5 p-2">
 
-                        <!-- Esta div recebe as imagens da webcam -->
-                        <div id="webcam-container"
-                            class="h-full flex items-center justify-center overflow-hidden border-2 border-red-500 hidden">
-                            <div id="webcam"></div>
-                        </div>
-                        <!-- Apresenta a taxa de acerto -->
-                        <div id="label-container" class=""></div>
-
-                        <div id="error-message"
-                            class="flex items-center justify-center w-full h-full bg-black text-red-500 font-bold text-2xl hidden">
-                        </div>
-
-                        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-                        <script
-                            src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-                        <script type="text/javascript">
-                            const URL = "https://teachablemachine.withgoogle.com/models/v17OiNC3W/";
-                            let model, webcam, labelContainer, maxPredictions;
-
-                            async function init() {
-                                const modelURL = URL + "model.json";
-                                const metadataURL = URL + "metadata.json";
-
-                                /* Variável para menssagem de erro */
-                                let error_msg = document.getElementById('error-message');
-
-                                try {
-                                    model = await tmImage.load(modelURL, metadataURL);
-                                    maxPredictions = model.getTotalClasses();
-
-                                    webCamContainer = document.getElementById('webcam'); 
-                                    webCamContainer.classList.toggle('hidden');
-
-                                    const flip = true;
-                                    webcam = new tmImage.Webcam(900, 900, flip);
-                                    await webcam.setup();
-                                    await webcam.play();
-                                    window.requestAnimationFrame(loop);
-
-                                    document.getElementById("webcam").appendChild(webcam.canvas);
-                                    labelContainer = document.getElementById("label-container");
-                                    for (let i = 0; i < maxPredictions; i++) {
-                                        labelContainer.appendChild(document.createElement("div"));
-                                    }
-                                } catch (error) {
-                                    error_msg.innerText = "Nenhuma câmera foi detectada";
-                                    error_msg.classList.toggle("hidden");
-
-                                }
-                            }
-
-                            async function loop() {
-                                webcam.update();
-                                await predict();
-                                window.requestAnimationFrame(loop);
-                            }
-
-                            async function predict() {
-                                const prediction = await model.predict(webcam.canvas);
-                                for (let i = 0; i < maxPredictions; i++) {
-                                    const classPrediction =
-                                        prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-                                    labelContainer.childNodes[i].innerHTML = classPrediction;
-                                }
-                            }
-
-
-                            window.onload = init;
-                        </script>
-
-                    </div>
-
-                    <div class="col-span-1 px-2 py-1 gap-1 justify-around flex flex-col">
-                        <div id="img1"></div>
-                        <div id="img2"></div>
-                        <div id="img3"></div>
-                        <div id="img4"></div>
-                        <div id="img5"></div>
-                    </div>
+                <!-- Esta div recebe as imagens da webcam -->
+                <div id="webcam-container" class="h-full flex items-center justify-center overflow-hidden border-2 border-red-500 hidden">
+                    <div id="webcam" class="w-full max-w-full"></div>
                 </div>
 
-    </body>
+                <!-- Apresenta a taxa de acerto -->
+                <div id="label-container" class="mt-4"></div>
 
-    </html>
+                <div id="error-message"
+                    class="flex items-center justify-center w-full h-full bg-black text-red-500 font-bold text-2xl hidden">
+                </div>
+
+                <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+                <script type="text/javascript">
+                    const URL = "https://teachablemachine.withgoogle.com/models/v17OiNC3W/";
+                    let model, webcam, labelContainer, maxPredictions;
+
+                    async function init() {
+                        const modelURL = URL + "model.json";
+                        const metadataURL = URL + "metadata.json";
+
+                        /* Variável para menssagem de erro */
+                        let error_msg = document.getElementById('error-message');
+
+                        try {
+                            model = await tmImage.load(modelURL, metadataURL);
+                            maxPredictions = model.getTotalClasses();
+
+                            webCamContainer = document.getElementById('webcam-container'); 
+                            webCamContainer.classList.toggle('hidden');
+
+                            const flip = true;
+                            webcam = new tmImage.Webcam(600, 600, flip);
+                            await webcam.setup();
+                            await webcam.play();
+                            window.requestAnimationFrame(loop);
+
+                            webCamContainer.appendChild(webcam.canvas);
+                            labelContainer = document.getElementById("label-container");
+                            for (let i = 0; i < maxPredictions; i++) {
+                                labelContainer.appendChild(document.createElement("div"));
+                            }
+                        } catch (error) {
+                            error_msg.innerText = "Nenhuma câmera foi detectada";
+                            error_msg.classList.toggle("hidden");
+
+                        }
+                    }
+
+                    async function loop() {
+                        webcam.update();
+                        await predict();
+                        window.requestAnimationFrame(loop);
+                    }
+
+                    async function predict() {
+                        const prediction = await model.predict(webcam.canvas);
+                        for (let i = 0; i < maxPredictions; i++) {
+                            const classPrediction =
+                                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+                            labelContainer.childNodes[i].innerHTML = classPrediction;
+
+                            // Check if the probability of class 2 is greater than 70%
+                            if (prediction[i].className === "2" && prediction[i].probability > 0.70) {
+                                console.log("Alerta: A probabilidade da Classe 2 é maior que 70%!");
+                            }
+                        }
+                    }
+
+                    window.onload = init;
+                </script>
+
+            </div>
+
+            <div class="col-span-1 px-2 py-1 gap-1 justify-around flex flex-col">
+                <div id="img1"></div>
+                <div id="img2"></div>
+                <div id="img3"></div>
+                <div id="img4"></div>
+                <div id="img5"></div>
+            </div>
+        </div>
+
+</body>
+
+</html>
