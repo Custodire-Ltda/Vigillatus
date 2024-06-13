@@ -11,6 +11,15 @@
 </head>
 
 <body class="h-screen w-screen flex items-center justify-center bgcolormain">    
+
+
+    <% if(error){ %>
+    <div class="text-red-500 absolute top-0 mt-2 bg-red-200 p-2 rounded border-2 border-red-500">
+        <%= error %>
+    </div> 
+    <% }else{ %>
+
+    <% } %>
     
     <div class="bg-gray-200 shadow-md rounded-md p-8 items-center sm:flex justify-center mx-4 my-4">
 
@@ -18,7 +27,7 @@
 
         <div class="">
 
-            <h1 class="text-center mt-4 md:mt-0 font-medium">Cadastro</h1>    
+            <h1 class="text-center mt-4 md:mt-0 font-medium text-2xl">CADASTRO</h1>    
 
             <form action="/cadastrar/cadGestor" method="post" enctype="multipart/form-data">
 
@@ -38,7 +47,7 @@
                 <div class="py-2">
                     <select required name="gestorSetor" id="" class="pl-4 pr-2 py-1 w-full">
         
-                        <option selected disabled>
+                        <option selected value="1">
                             Setor
                         </option>
             
@@ -55,7 +64,7 @@
                 <div class="py-2">
                     <select required name="gestorCargo" class="pl-4 pr-2 py-1 w-full">
         
-                        <option selected disabled>Cargo</option>
+                        <option selected value="1">Cargo</option>
             
                         <% listaCargos.forEach((listaCargos)=>{ %>
             
@@ -74,9 +83,6 @@
                 
             </form>
 
-                <div class="text-red-500">
-                    <%= error %>
-                </div> 
                 <div class="py-2">
                     Já tem uma conta? Faça seu <a href="/" class="font-medium">login</a>
                 </div>                           

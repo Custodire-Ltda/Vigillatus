@@ -34,7 +34,6 @@ const colabFotoStorage = multer.diskStorage({
 const uploadColabFoto = multer({ storage: colabFotoStorage });
 
 // Função de Merge Sort
-// Função de Merge Sort
 function mergeSort(arr, key, order = 'asc') {
     if (arr.length <= 1) {
         return arr;

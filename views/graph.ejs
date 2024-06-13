@@ -1,0 +1,22 @@
+<%- include('./partials/header', {
+    gestorInfo: gestorInfo,
+    pageName: 'Dashboard'
+}) %>
+
+<body class="">
+
+    <div class="grid grid-cols-7">
+    
+        <div id="loader"></div>
+     
+        <%- include('./partials/menu', {gestorInfo: gestorInfo}) %>
+        
+        
+        <!-- Apresentando gráficos -->
+        <%- include('./partials/graph') %>
+           
+    </div>
+
+</body> 
+
+</html>

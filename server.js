@@ -23,6 +23,7 @@ const addColab = require('./controller/addColabController');
 const gestorEdit = require('./controller/gestorController');
 const colabEdit = require('./controller/colabController');
 const cameras = require('./controller/camController');
+const dashboard = require('./controller/graphController');
 
 /////{ CONFIGURAÇÕES }//////////////////////////////////////////////////////////////////////////////////
 
@@ -56,31 +57,11 @@ app.listen(port, () => {
     console.log(`Server on: http://localhost:${port}`);
 });
 
-/* Inserindo dados inicialmente */
-async function insertInitialData() {
-    try {
-        await Db.sequelize.sync();
 
-        console.log('ping')
-
-        // Inserir os cargos iniciais
-        await Cargo.create([
-            { nome: 'Tec. Segurança no trabalho', nivel: 1 },
-            { nome: 'Gestor', nivel: 1 },
-            { nome: 'Mecânico', nivel: 2 },
-            { nome: 'Soldador', nivel: 2 }
-        ]);
-
-        console.log('Dados iniciais inseridos com sucesso.');
-
-        console.log('pong')
-    } catch (error) {
-        console.error('Erro ao inserir dados iniciais:', error);
-    }
-}
 
 //Rota para o a tela de login
 app.get('/', (req, res) => {
+
     res.render('index.ejs', { error: null });
     Setor;
     Cargo;
@@ -93,6 +74,8 @@ app.get('/', (req, res) => {
     Colaborador;
     Gestor;
 
+
+    /* Inserindo dados inicialmente */
     try {
 
         async function initialInsert(){
@@ -155,6 +138,16 @@ app.get('/', (req, res) => {
             }else{
                 console.log('Epis não inseridos');
             };
+
+            const existCamera = await Camera.findAll();
+            if(existCamera.length === 0){
+                await Camera.bulkCreate([
+                    {
+                        descricao:"Camera 1",
+                        idSetor:1
+                    }
+                ]);
+            }
         }
 
         
@@ -164,6 +157,7 @@ app.get('/', (req, res) => {
     } catch {
         console.log('FODEU DE VEZ')
     }
+
 });
 
 //Fazendo verificação básica para o usuário exevutar o login
@@ -204,6 +198,7 @@ app.post('/login', async (req, res) => {
             res.render('index.ejs', { error: 'Senha incorreta' });
         }
     }
+    
 });
 
 
@@ -233,4 +228,6 @@ app.use('/home/addColab', addColab);
 app.use('/home/perfilGestor/edit', gestorEdit);
 
 //Rota para a tela de câmeras
-//app.use('/home/cameras', cameras)
+app.use('/home/cameras', cameras);
+
+app.use('/home/dashboard', dashboard);
