@@ -1,22 +1,59 @@
-<%- include('./partials/header', {
-    gestorInfo: gestorInfo,
-    pageName: 'Dashboard'
-}) %>
+<%- include('./partials/header', { gestorInfo: gestorInfo, pageName: 'Dashboard' }) %>
 
-<body class="">
+    <body class="flex flex-row">
 
-    <div class="grid grid-cols-7">
-    
-        <div id="loader"></div>
-     
-        <%- include('./partials/menu', {gestorInfo: gestorInfo}) %>
-        
-        
-        <!-- Apresentando gráficos -->
-        <%- include('./partials/graph') %>
-           
-    </div>
+        <div class="grid grid-cols-7">
 
-</body> 
+            <div id="loader"></div>
 
-</html>
+            <%- include('./partials/menu', {gestorInfo: gestorInfo}) %>
+
+            <div class="col-start-2 col-span-6 lg:col-start-3 lg:col-span-4">
+                <h1 class="text-2xl font-bold text-gray-800 my-6">Dashboard</h1>
+
+                <div class="flex justify-start gap-4">
+                    <button class="bg-gray-700 text-white p-4 rounded hover:bg-[#4B7296] focus:bg-[#4B7296] w-40">
+                        <i class="fa-solid fa-user-group"></i>
+                        Funcionários
+                    </button>
+                    <button class="bg-gray-700 text-white p-4 rounded hover:bg-[#4B7296] focus:bg-[#4B7296] w-40">
+                        <i class="fa-solid fa-industry"></i>
+                        Setores
+                    </button>
+                    <button class="bg-gray-700 text-white p-4 rounded hover:bg-[#4B7296] focus:bg-[#4B7296] w-40">
+                        <i class="fa-solid fa-helmet-safety"></i>
+                        Equipamentos
+                    </button>
+                </div>
+
+                <div class="flex justify-start gap-4">
+
+                    <select class="bg-transparent font-bold text-gray-500" name="" id="">
+                        <option selected value="2024">
+                            2024
+                        </option>
+                    </select>
+
+                    <select class="bg-transparent font-bold text-gray-500" name="" id="">
+                        <option selected value="JAN">
+                            JAN
+                        </option>
+                    </select>
+
+                    <select class="bg-transparent font-bold text-gray-500" name="" id="">
+                        <option value="">
+                            SETOR 1
+                        </option>
+                    </select>
+
+                </div>
+
+                <%- include('./partials/chart')%>
+
+            </div>
+
+        </div>
+
+    </body>
+
+    </html>
