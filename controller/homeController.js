@@ -401,7 +401,7 @@ router.post("/colaboradores/:id/colabDelete", async (req, res) => {
 
 });
 
-router.get('/cameras', (req, res)=>{
+/* router.get('/cameras', (req, res)=>{
 
     const gestorInfo = req.session.user;
 
@@ -411,6 +411,6 @@ router.get('/cameras', (req, res)=>{
     imagePath = imagePath || '/img/profile/default.jpg';
 
     res.render('camera.ejs',  {gestorInfo, imagePath});
-});
+}); */
 
 module.exports = router;
