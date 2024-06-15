@@ -19,6 +19,12 @@
                 <!-- Apresenta a taxa de acerto -->
                 <div id="label-container" class="mt-4"></div>
 
+                <!-- Div para exibir a imagem capturada -->
+                <div id="captured-image-container" class="mt-4 hidden">
+                    <p class="text-lg font-bold">Imagem Capturada:</p>
+                    <img id="captured-image" class="border-2 border-gray-500" alt="Captured Image">
+                </div>
+
                 <div id="error-message"
                     class="flex items-center justify-center w-full h-full bg-black text-red-500 font-bold text-2xl hidden">
                 </div>
@@ -75,10 +81,18 @@
                             labelContainer.childNodes[i].innerHTML = classPrediction;
 
                             // Check if the probability of class 2 is greater than 70%
-                            if (prediction[i].className === "2" && prediction[i].probability > 0.70) {
-                                
+                            if (prediction[i].className == 1 && prediction[i].probability >= 0.90) {
+                                captureImage();
                             }
                         }
+                    }
+
+                    function captureImage() {
+                        // Capture the current frame from the webcam
+                        const capturedImageContainer = document.getElementById('captured-image-container');
+                        const capturedImage = document.getElementById('captured-image');
+                        capturedImage.src = webcam.canvas.toDataURL('image/png');
+                        capturedImageContainer.classList.remove('hidden');
                     }
 
                     window.onload = init;
