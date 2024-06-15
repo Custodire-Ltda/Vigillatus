@@ -12,7 +12,11 @@ router.get('/', async(req, res)=>{
     // Se imagePath for null ou vazio, define a imagem padrão
     imagePath = imagePath || '/img/profile/default.jpg';
 
-    const listCamera = await Camera.findAll();
+    const listCamera = await Camera.findAll({
+        where:{
+            idSetor:[gestorInfo.idSetor]
+        }
+    });
 
     res.render('camera.ejs',  {gestorInfo, imagePath});
 
