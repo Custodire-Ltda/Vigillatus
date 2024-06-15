@@ -7,7 +7,7 @@
         <div id="loader"></div>
 
         <%- include('partials/menu.ejs', {gestorInfo:gestorInfo})%>
-        <div class="col-start-3 col-span-4 grid grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <div class="col-start-3 col-span-4 grid grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"> 
             <!-- Main cam -->
             <div class="col-span-3 lg:col-span-4 xl:col-span-5">
 
@@ -26,7 +26,7 @@
                 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
                 <script type="text/javascript">
-                    const URL = "https://teachablemachine.withgoogle.com/models/v17OiNC3W/";
+                    const URL = "https://teachablemachine.withgoogle.com/models/XMA51V3fb/";
                     let model, webcam, labelContainer, maxPredictions;
 
                     async function init() {
@@ -76,7 +76,7 @@
 
                             // Check if the probability of class 2 is greater than 70%
                             if (prediction[i].className === "2" && prediction[i].probability > 0.70) {
-                                console.log("Alerta: A probabilidade da Classe 2 é maior que 70%!");
+                                
                             }
                         }
                     }
