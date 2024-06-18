@@ -10,7 +10,7 @@
         <div class="col-start-3 col-span-4 grid grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"> 
             <!-- Main cam -->
             <div class="col-span-3 lg:col-span-4 xl:col-span-5">
-
+                
                 <!-- Esta div recebe as imagens da webcam -->
                 <div id="webcam-container" class="h-full flex items-center justify-center overflow-hidden border-2 hidden">
                     <div id="webcam"></div>
@@ -29,74 +29,36 @@
                     class="flex items-center justify-center w-full h-full bg-black text-red-500 font-bold text-2xl hidden">
                 </div>
 
+                <!-- Notificação -->
+                <div id="notification" class="notification hidden">
+                    <img id="notification-image" alt="Captured Image">
+                    <p>Classe 2 detectada com mais de 80% de acurácia!</p>
+                </div>
+
+                <style>
+                    .notification {
+                        position: fixed;
+                        top: 10px;
+                        right: 10px;
+                        background: #fff;
+                        border: 1px solid #ccc;
+                        padding: 10px;
+                        border-radius: 5px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                        z-index: 1000;
+                        display: flex;
+                        align-items: center;
+                    }
+                    .notification img {
+                        width: 50px;
+                        height: 50px;
+                        margin-right: 10px;
+                    }
+                </style>
+
                 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-                <script type="text/javascript">
-                    const URL = "https://teachablemachine.withgoogle.com/models/XMA51V3fb/";
-                    let model, webcam, labelContainer, maxPredictions;
-
-                    async function init() {
-                        const modelURL = URL + "model.json";
-                        const metadataURL = URL + "metadata.json";
-
-                        /* Variável para menssagem de erro */
-                        let error_msg = document.getElementById('error-message');
-
-                        try {
-                            model = await tmImage.load(modelURL, metadataURL);
-                            maxPredictions = model.getTotalClasses();
-
-                            webCamContainer = document.getElementById('webcam-container'); 
-                            webCamContainer.classList.toggle('hidden');
-
-                            const flip = true;
-                            webcam = new tmImage.Webcam(600, 600, flip);
-                            await webcam.setup();
-                            await webcam.play();
-                            window.requestAnimationFrame(loop);
-
-                            webCamContainer.appendChild(webcam.canvas);
-                            labelContainer = document.getElementById("label-container");
-                            for (let i = 0; i < maxPredictions; i++) {
-                                labelContainer.appendChild(document.createElement("div"));
-                            }
-                        } catch (error) {
-                            error_msg.innerText = "Nenhuma câmera foi detectada";
-                            error_msg.classList.toggle("hidden");
-
-                        }
-                    }
-
-                    async function loop() {
-                        webcam.update();
-                        await predict();
-                        window.requestAnimationFrame(loop);
-                    }
-
-                    async function predict() {
-                        const prediction = await model.predict(webcam.canvas);
-                        for (let i = 0; i < maxPredictions; i++) {
-                            const classPrediction =
-                                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-                            labelContainer.childNodes[i].innerHTML = classPrediction;
-
-                            // Check if the probability of class 2 is greater than 70%
-                            if (prediction[i].className == 1 && prediction[i].probability >= 0.90) {
-                                captureImage();
-                            }
-                        }
-                    }
-
-                    function captureImage() {
-                        // Capture the current frame from the webcam
-                        const capturedImageContainer = document.getElementById('captured-image-container');
-                        const capturedImage = document.getElementById('captured-image');
-                        capturedImage.src = webcam.canvas.toDataURL('image/png');
-                        capturedImageContainer.classList.remove('hidden');
-                    }
-
-                    window.onload = init;
-                </script>
+                <script src="/path/to/your/camera.js"></script> <!-- Inclua o script externo aqui -->
 
             </div>
 
