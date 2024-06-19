@@ -1,59 +1,134 @@
 <%- include('./partials/header', { gestorInfo: gestorInfo, pageName: 'Dashboard' }) %>
+<div class="grid grid-cols-7">
 
-    <body class="flex flex-row">
+    <div id="loader"></div>
 
-        <div class="grid grid-cols-7">
+    <%- include('./partials/menu', {gestorInfo: gestorInfo}) %>
 
-            <div id="loader"></div>
+    <div class="col-start-2 col-span-6 lg:col-start-3 lg:col-span-4">
+        <h1 class="text-2xl font-bold text-gray-800 my-6">Dashboard</h1>
 
-            <%- include('./partials/menu', {gestorInfo: gestorInfo}) %>
-
-            <div class="col-start-2 col-span-6 lg:col-start-3 lg:col-span-4">
-                <h1 class="text-2xl font-bold text-gray-800 my-6">Dashboard</h1>
-
-                <div class="my-5 flex justify-start gap-4">
-                    <button class="bg-gray-700 text-white p-4 rounded hover:bg-[#4B7296] focus:bg-[#4B7296] w-40">
-                        <i class="fa-solid fa-user-group"></i>
-                        Funcionários
-                    </button>
-                    <button class="bg-gray-700 text-white p-4 rounded hover:bg-[#4B7296] focus:bg-[#4B7296] w-40">
-                        <i class="fa-solid fa-industry"></i>
-                        Setores
-                    </button>
-                    <button class="bg-gray-700 text-white p-4 rounded hover:bg-[#4B7296] focus:bg-[#4B7296] w-40">
-                        <i class="fa-solid fa-helmet-safety"></i>
-                        Equipamentos
-                    </button>
-                </div>
-
-                <div class="my-5 flex justify-start gap-4">
-
-                    <select class="bg-transparent font-bold text-gray-500" name="" id="">
-                        <option selected value="2024">
-                            2024
-                        </option>
-                    </select>
-
-                    <select class="bg-transparent font-bold text-gray-500" name="" id="">
-                        <option selected value="JAN">
-                            JAN
-                        </option>
-                    </select>
-
-                    <select class="bg-transparent font-bold text-gray-500" name="" id="">
-                        <option value="">
-                            SETOR 1
-                        </option>
-                    </select>
-
-                </div>
-
-                <%- include('./partials/chart')%>
-
-            </div>
-
+        <div class="my-5 flex justify-start gap-4">
+            <button id="btnFuncionarios" class="bg-gray-700 text-white p-4 rounded hover:bg-[#4B7296] focus:bg-[#4B7296] w-40">
+                <i class="fa-solid fa-user-group"></i>
+                Funcionários
+            </button>
+            <button id="btnSetores" class="bg-gray-700 text-white p-4 rounded hover:bg-[#4B7296] focus:bg-[#4B7296] w-40">
+                <i class="fa-solid fa-industry"></i>
+                Setores
+            </button>
         </div>
 
-    </body>
+        <div class="my-5 flex justify-start gap-4">
+            <select class="bg-transparent font-bold text-gray-500" name="" id="">
+                <option selected value="2024">2024</option>
+            </select>
+            <select class="bg-transparent font-bold text-gray-500" name="" id="">
+                <option selected value="JAN">JAN</option>
+            </select>
+            <select class="bg-transparent font-bold text-gray-500" name="" id="">
+                <option value="">SETOR 1</option>
+            </select>
+        </div>
 
-    </html>
+        <canvas id="chartFuncionarios" width="400" height="200"></canvas>
+        <canvas id="chartSetores" width="400" height="200" style="display:none;"></canvas>
+
+    </div>
+
+</div>
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var ctxFuncionarios = document.getElementById('chartFuncionarios').getContext('2d');
+        var ctxSetores = document.getElementById('chartSetores').getContext('2d');
+        var chartFuncionarios = null;
+        var chartSetores = null;
+
+        // Função para criar ou atualizar o gráfico de Funcionários
+        function renderizarGraficoFuncionarios() {
+            // Certifica-se de que o gráfico de Setores esteja escondido
+            document.getElementById('chartSetores').style.display = 'none';
+            // Se já existe um gráfico de Funcionários, destrua-o antes de criar um novo
+            if (chartFuncionarios) {
+                chartFuncionarios.destroy();
+            }
+            chartFuncionarios = new Chart(ctxFuncionarios, {
+                type: 'bar',
+                data: {
+                    labels: ['Carlos', 'Fernanda', 'João', 'Mariana', 'Pedro'], // Nomes dos funcionários brasileiros
+                    datasets: [{
+                        label: 'Quantidade de Ocorrências',
+                        data: [8, 15, 5, 9, 12], // Quantidade de ocorrências para cada funcionário
+                        backgroundColor: '#4b7296', // Cor de fundo slate blue
+                        borderColor: 'rgba(106, 90, 205, 1)', // Cor da borda slate blue
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: 15 // Define o máximo sugerido do eixo Y como 15
+                        }
+                    }
+                }
+            });
+            // Mostra o canvas do gráfico de Funcionários
+            document.getElementById('chartFuncionarios').style.display = 'block';
+        }
+
+        // Função para criar ou atualizar o gráfico de Setores
+        function renderizarGraficoSetores() {
+            // Certifica-se de que o gráfico de Funcionários esteja escondido
+            document.getElementById('chartFuncionarios').style.display = 'none';
+            // Se já existe um gráfico de Setores, destrua-o antes de criar um novo
+            if (chartSetores) {
+                chartSetores.destroy();
+            }
+            chartSetores = new Chart(ctxSetores, {
+                type: 'bar',
+                data: {
+                    labels: ['Oficina', 'Caldeira', 'Carregamento'], // Nomes dos setores
+                    datasets: [{
+                        label: 'Número de Funcionários',
+                        data: [20, 15, 10], // Número de funcionários por setor
+                        backgroundColor: '#4b7296', // Cor de fundo slate blue
+                        borderColor: 'rgba(106, 90, 205, 1)', // Cor da borda slate blue
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: 25 // Define o máximo sugerido do eixo Y como 25
+                        }
+                    }
+                }
+            });
+            // Mostra o canvas do gráfico de Setores
+            document.getElementById('chartSetores').style.display = 'block';
+        }
+
+        // Adicionar evento de clique para o botão de Funcionários
+        document.getElementById('btnFuncionarios').addEventListener('click', function() {
+            // Renderiza o gráfico de Funcionários
+            renderizarGraficoFuncionarios();
+        });
+
+        // Adicionar evento de clique para o botão de Setores
+        document.getElementById('btnSetores').addEventListener('click', function() {
+            // Renderiza o gráfico de Setores
+            renderizarGraficoSetores();
+        });
+
+        // Inicialmente, mostra o gráfico de Funcionários ao carregar a página
+        renderizarGraficoFuncionarios();
+    });
+</script>
+
+</html>

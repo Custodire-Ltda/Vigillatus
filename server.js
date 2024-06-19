@@ -23,6 +23,7 @@ const addColab = require('./controller/addColabController');
 const gestorEdit = require('./controller/gestorController');
 const colabEdit = require('./controller/colabController');
 const cameras = require('./controller/camController');
+const historico = require('./controller/reportController');
 const dashboard = require('./controller/graphController');
 
 /////{ CONFIGURAÇÕES }//////////////////////////////////////////////////////////////////////////////////
@@ -41,6 +42,9 @@ app.use(express.static('public'));
 const bodyParser = require('body-parser');
 const Norma = require('./models/Norma');
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 app.use((req, res, next) => {
     if (req.session.user) {
@@ -231,3 +235,5 @@ app.use('/home/perfilGestor/edit', gestorEdit);
 app.use('/home/cameras', cameras);
 
 app.use('/home/dashboard', dashboard);
+
+app.use('/home/historico', historico)

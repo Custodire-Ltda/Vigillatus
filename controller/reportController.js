@@ -15,7 +15,6 @@ router.get('/', async (req, res) => {
         }
     });
 
-    res.render('camera.ejs', { gestorInfo, imagePath });
-    
+    res.render('report.ejs', { gestorInfo, imagePath });
 });
 module.exports = router;

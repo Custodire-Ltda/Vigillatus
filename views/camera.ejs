@@ -1,114 +1,49 @@
 <%- include('./partials/header', { gestorInfo: gestorInfo, pageName: 'Cameras' }) %>
-
-<body class="">
-
+<body class="bg-gray-100">
     <div class="grid grid-cols-5 lg:grid-cols-6 xl:grid-cols-7">
-
         <div id="loader"></div>
-
         <%- include('partials/menu.ejs', {gestorInfo:gestorInfo})%>
-        <div class="col-start-3 col-span-4 grid grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"> 
+        <div class="col-start-3 col-span-5 grid grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"> 
             <!-- Main cam -->
-            <div class="col-span-3 lg:col-span-4 xl:col-span-5">
-
+            <div class="col-span-2 lg:col-span-3 xl:col-span-4">
+                
                 <!-- Esta div recebe as imagens da webcam -->
-                <div id="webcam-container" class="h-full flex items-center justify-center overflow-hidden border-2 hidden">
+                <div id="webcam-container" class="h-full flex items-center justify-center overflow-hidden border-2">
                     <div id="webcam"></div>
                 </div>
 
                 <!-- Apresenta a taxa de acerto -->
-                <div id="label-container" class="mt-4"></div>
+                <div id="label-container" class="mt-4 hidden"></div>
 
-                <!-- Div para exibir a imagem capturada -->
-                <div id="captured-image-container" class="mt-4 hidden">
-                    <p class="text-lg font-bold">Imagem Capturada:</p>
-                    <img id="captured-image" class="border-2 border-gray-500" alt="Captured Image">
-                </div>
+                <div id="error-message" class="flex items-center justify-center w-full h-full bg-black text-red-500 font-bold text-2xl hidden"></div>
 
-                <div id="error-message"
-                    class="flex items-center justify-center w-full h-full bg-black text-red-500 font-bold text-2xl hidden">
+                <!-- Container de notificação -->
+                <div id="notification" class="fixed flex flex-row top-4 right-4 bg-white border border-gray-300 rounded-lg shadow-lg gap-1 p-4 hidden">
+                    
+                    <button id="close-notification" class="mt-2 bg-red-500 text-white py-1 px-2 rounded">Fechar</button>
+                    
+                    <img id="notification-image" class="w-16 h-16 mt-2 border-2 border-gray-500" alt="Notification Image">
+                    
+                    <div class="flex flex-col items-left justify-center">
+                        <p class="text-lg font-bold text-red-500">ALERTA!!!</p>
+                        <p>Setor: Oficina</p>
+                        <p>Câmera: Camera 1 - Oficina</p>
+                    </div>  
                 </div>
 
                 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-                <script type="text/javascript">
-                    const URL = "https://teachablemachine.withgoogle.com/models/XMA51V3fb/";
-                    let model, webcam, labelContainer, maxPredictions;
-
-                    async function init() {
-                        const modelURL = URL + "model.json";
-                        const metadataURL = URL + "metadata.json";
-
-                        /* Variável para menssagem de erro */
-                        let error_msg = document.getElementById('error-message');
-
-                        try {
-                            model = await tmImage.load(modelURL, metadataURL);
-                            maxPredictions = model.getTotalClasses();
-
-                            webCamContainer = document.getElementById('webcam-container'); 
-                            webCamContainer.classList.toggle('hidden');
-
-                            const flip = true;
-                            webcam = new tmImage.Webcam(600, 600, flip);
-                            await webcam.setup();
-                            await webcam.play();
-                            window.requestAnimationFrame(loop);
-
-                            webCamContainer.appendChild(webcam.canvas);
-                            labelContainer = document.getElementById("label-container");
-                            for (let i = 0; i < maxPredictions; i++) {
-                                labelContainer.appendChild(document.createElement("div"));
-                            }
-                        } catch (error) {
-                            error_msg.innerText = "Nenhuma câmera foi detectada";
-                            error_msg.classList.toggle("hidden");
-
-                        }
-                    }
-
-                    async function loop() {
-                        webcam.update();
-                        await predict();
-                        window.requestAnimationFrame(loop);
-                    }
-
-                    async function predict() {
-                        const prediction = await model.predict(webcam.canvas);
-                        for (let i = 0; i < maxPredictions; i++) {
-                            const classPrediction =
-                                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-                            labelContainer.childNodes[i].innerHTML = classPrediction;
-
-                            // Check if the probability of class 2 is greater than 70%
-                            if (prediction[i].className == 1 && prediction[i].probability >= 0.90) {
-                                captureImage();
-                            }
-                        }
-                    }
-
-                    function captureImage() {
-                        // Capture the current frame from the webcam
-                        const capturedImageContainer = document.getElementById('captured-image-container');
-                        const capturedImage = document.getElementById('captured-image');
-                        capturedImage.src = webcam.canvas.toDataURL('image/png');
-                        capturedImageContainer.classList.remove('hidden');
-                    }
-
-                    window.onload = init;
-                </script>
-
+                <script src="script.js"></script>
             </div>
-
-            <div class="col-span-1 px-2 py-1 gap-1 justify-around flex flex-col">
-                <div id="img1"></div>
-                <div id="img2"></div>
-                <div id="img3"></div>
-                <div id="img4"></div>
-                <div id="img5"></div>
+            <div class="col-span-2 px-2 py-1 gap-1">
+                <div class="grid grid-cols-2 gap-2">
+                    <div id="img1" class="bg-gray-200 border border-gray-300 rounded-md h-40"></div>
+                    <div id="img2" class="bg-gray-200 border border-gray-300 rounded-md h-40"></div>
+                    <div id="img3" class="bg-gray-200 border border-gray-300 rounded-md h-40"></div>
+                    <div id="img4" class="bg-gray-200 border border-gray-300 rounded-md h-40"></div>
+                </div>
             </div>
         </div>
-
+    </div>
 </body>
-
 </html>
