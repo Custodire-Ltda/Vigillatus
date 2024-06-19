@@ -1,76 +1,49 @@
 <%- include('./partials/header', { gestorInfo: gestorInfo, pageName: 'Cameras' }) %>
-
-<body class="">
-
+<body class="bg-gray-100">
     <div class="grid grid-cols-5 lg:grid-cols-6 xl:grid-cols-7">
-
         <div id="loader"></div>
-
         <%- include('partials/menu.ejs', {gestorInfo:gestorInfo})%>
-        <div class="col-start-3 col-span-4 grid grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"> 
+        <div class="col-start-3 col-span-5 grid grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"> 
             <!-- Main cam -->
-            <div class="col-span-3 lg:col-span-4 xl:col-span-5">
+            <div class="col-span-2 lg:col-span-3 xl:col-span-4">
                 
                 <!-- Esta div recebe as imagens da webcam -->
-                <div id="webcam-container" class="h-full flex items-center justify-center overflow-hidden border-2 hidden">
+                <div id="webcam-container" class="h-full flex items-center justify-center overflow-hidden border-2">
                     <div id="webcam"></div>
                 </div>
 
                 <!-- Apresenta a taxa de acerto -->
-                <div id="label-container" class="mt-4"></div>
+                <div id="label-container" class="mt-4 hidden"></div>
 
-                <!-- Div para exibir a imagem capturada -->
-                <div id="captured-image-container" class="mt-4 hidden">
-                    <p class="text-lg font-bold">Imagem Capturada:</p>
-                    <img id="captured-image" class="border-2 border-gray-500" alt="Captured Image">
+                <div id="error-message" class="flex items-center justify-center w-full h-full bg-black text-red-500 font-bold text-2xl hidden"></div>
+
+                <!-- Container de notificação -->
+                <div id="notification" class="fixed flex flex-row top-4 right-4 bg-white border border-gray-300 rounded-lg shadow-lg gap-1 p-4 hidden">
+                    
+                    <button id="close-notification" class="mt-2 bg-red-500 text-white py-1 px-2 rounded">Fechar</button>
+                    
+                    <img id="notification-image" class="w-16 h-16 mt-2 border-2 border-gray-500" alt="Notification Image">
+                    
+                    <div class="flex flex-col items-left justify-center">
+                        <p class="text-lg font-bold text-red-500">ALERTA!!!</p>
+                        <p>Setor: Oficina</p>
+                        <p>Câmera: Camera 1 - Oficina</p>
+                    </div>  
                 </div>
-
-                <div id="error-message"
-                    class="flex items-center justify-center w-full h-full bg-black text-red-500 font-bold text-2xl hidden">
-                </div>
-
-                <!-- Notificação -->
-                <div id="notification" class="notification hidden">
-                    <img id="notification-image" alt="Captured Image">
-                    <p>Classe 2 detectada com mais de 80% de acurácia!</p>
-                </div>
-
-                <style>
-                    .notification {
-                        position: fixed;
-                        top: 10px;
-                        right: 10px;
-                        background: #fff;
-                        border: 1px solid #ccc;
-                        padding: 10px;
-                        border-radius: 5px;
-                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                        z-index: 1000;
-                        display: flex;
-                        align-items: center;
-                    }
-                    .notification img {
-                        width: 50px;
-                        height: 50px;
-                        margin-right: 10px;
-                    }
-                </style>
 
                 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-                <script src="/path/to/your/camera.js"></script> <!-- Inclua o script externo aqui -->
-
+                <script src="script.js"></script>
             </div>
-
-            <div class="col-span-1 px-2 py-1 gap-1 justify-around flex flex-col">
-                <div id="img1"></div>
-                <div id="img2"></div>
-                <div id="img3"></div>
-                <div id="img4"></div>
-                <div id="img5"></div>
+            <div class="col-span-2 px-2 py-1 gap-1">
+                <div class="grid grid-cols-2 gap-2">
+                    <div id="img1" class="bg-gray-200 border border-gray-300 rounded-md h-40"></div>
+                    <div id="img2" class="bg-gray-200 border border-gray-300 rounded-md h-40"></div>
+                    <div id="img3" class="bg-gray-200 border border-gray-300 rounded-md h-40"></div>
+                    <div id="img4" class="bg-gray-200 border border-gray-300 rounded-md h-40"></div>
+                </div>
             </div>
         </div>
-
+    </div>
 </body>
-
 </html>

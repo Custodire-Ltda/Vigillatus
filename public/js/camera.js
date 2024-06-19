@@ -5,15 +5,12 @@ async function init() {
     const modelURL = URL + "model.json";
     const metadataURL = URL + "metadata.json";
 
-    /* Variável para menssagem de erro */
+    /* Variável para mensagem de erro */
     let error_msg = document.getElementById('error-message');
 
     try {
         model = await tmImage.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
-
-        webCamContainer = document.getElementById('webcam-container'); 
-        webCamContainer.classList.toggle('hidden');
 
         const flip = true;
         webcam = new tmImage.Webcam(600, 600, flip);
@@ -21,14 +18,30 @@ async function init() {
         await webcam.play();
         window.requestAnimationFrame(loop);
 
-        webCamContainer.appendChild(webcam.canvas);
+        // Exibir webcam e previsões apenas se a inicialização for bem-sucedida
+        document.getElementById('webcam-container').classList.remove('hidden');
+        document.getElementById('webcam-container').appendChild(webcam.canvas);
+
         labelContainer = document.getElementById("label-container");
         for (let i = 0; i < maxPredictions; i++) {
             labelContainer.appendChild(document.createElement("div"));
         }
+
+        // Ocultar mensagem de erro se for exibida
+        error_msg.classList.add("hidden");
+
+        // Add event listener to the close button
+        document.getElementById('close-notification').addEventListener('click', function() {
+            document.getElementById('notification').classList.add('hidden');
+        });
+
     } catch (error) {
+        // Ocultar elementos destinados à câmera e às previsões
+        document.getElementById('webcam-container').classList.add('hidden');
+        labelContainer.innerHTML = ''; // Limpar elementos de previsão
+        // Exibir mensagem de erro
         error_msg.innerText = "Nenhuma câmera foi detectada";
-        error_msg.classList.toggle("hidden");
+        error_msg.classList.remove("hidden");
     }
 }
 
@@ -41,31 +54,24 @@ async function loop() {
 async function predict() {
     const prediction = await model.predict(webcam.canvas);
     for (let i = 0; i < maxPredictions; i++) {
-        const classPrediction =
-            prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+        const classPrediction = prediction[i].className + ": " + prediction[i].probability.toFixed(2);
         labelContainer.childNodes[i].innerHTML = classPrediction;
 
-        // Check if the probability of class 2 is greater than 80%
-        if (prediction[i].className == 2 && prediction[i].probability > 0.80) {
-            captureAndNotify();
+        // Check if the probability of class 2 is >= 0.80 (80%)
+        if (prediction[i].className == 2 && prediction[i].probability >= 0.80) {
+            captureImage(prediction[i].probability.toFixed(2)); // Pass probability to captureImage function
         }
     }
 }
 
-function captureAndNotify() {
+function captureImage(probability) {
     // Capture the current frame from the webcam
-    const capturedImage = webcam.canvas.toDataURL('image/png');
-
-    // Display the notification
     const notification = document.getElementById('notification');
     const notificationImage = document.getElementById('notification-image');
-    notificationImage.src = capturedImage;
-    notification.classList.remove('hidden');
 
-    // Hide the notification after 5 seconds
-    setTimeout(() => {
-        notification.classList.add('hidden');
-    }, 5000);
+    // Set the notification image and display the notification
+    notificationImage.src = webcam.canvas.toDataURL('image/png');
+    notification.classList.remove('hidden');
 }
 
 window.onload = init;

@@ -1,9 +1,7 @@
 <%- include('./partials/header', {
     gestorInfo: gestorInfo,
-    pageName: 'Home'
+    pageName: 'Histórico'
 }) %>
-
-<body class="bg-gray-100">
 
     <div class="grid grid-cols-7 min-h-screen">
     
@@ -13,14 +11,6 @@
         
         <!-- Main Content -->
         <div class="col-start-3 col-span-4 p-4">
-
-            <div class="flex flex-row items-center justify-between">
-                <h1 class="text-lg font-bold py-1">Últimas notificações</h1>
-                <button>
-                    <i class="fa-solid fa-arrow-right text-lg"></i>
-                </button>
-            </div>
-
             <div id="notifications" class="grid grid-cols-2 gap-4">
                 <!-- Notification Card Example 1 -->
                 <div class="bg-white shadow-md rounded-lg p-4 flex items-center space-x-4">
@@ -46,21 +36,19 @@
                     </div>
                     <ion-icon name="alert-circle-outline" class="text-red-500 text-3xl ml-auto"></ion-icon>
                 </div>
-            </div>
-            
-            <!-- Gráfico -->
-            <div class="mt-6">
-
-                <div class="flex flex-row items-center justify-between">
-                    <h1 class="text-lg font-bold py-1">Resumo das Ocorrências</h1>
-                  SSS  <button>
-                        <i class="fa-solid fa-arrow-right text-lg"></i>
-                    </button>
+                <!-- Notification Card Example 3 -->
+                <div class="bg-white shadow-md rounded-lg p-4 flex items-center space-x-4">
+                    <img src="/img/capacete.png" alt="Foto do Funcionário" class="w-16 h-16 rounded-full object-cover">
+                    <div>
+                        <h3 class="text-lg font-semibold">Carregamento</h3>
+                        <p class="text-gray-600">Câmera: Câmera 3</p>
+                        <p class="text-gray-600">Funcionário: Carlos Pereira</p>
+                        <p class="text-gray-500 text-sm">Data: 2024-06-19</p>
+                        <p class="text-gray-500 text-sm">Hora: 10:15</p>
+                    </div>
+                    <ion-icon name="alert-circle-outline" class="text-red-500 text-3xl ml-auto"></ion-icon>
                 </div>
-
-                <canvas id="summaryChart" width="400" height="200"></canvas>
             </div>
-            
         </div>
          
     </div>
@@ -68,34 +56,6 @@
     <!-- IonIcons library -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <!-- Chart.js library -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var ctxSummary = document.getElementById('summaryChart').getContext('2d');
-            var summaryChart = new Chart(ctxSummary, {
-                type: 'bar',
-                data: {
-                    labels: ['Oficina', 'Caldeira', 'Carregamento'],
-                    datasets: [{
-                        label: 'Ocorrências',
-                        data: [10, 8, 6], // Dados fictícios de ocorrências por setor
-                        backgroundColor: '#4b7296', // Cor de fundo slate blue
-                        borderColor: 'rgba(106, 90, 205, 1)', // Cor da borda slate blue
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            suggestedMax: 15 // Define o máximo sugerido do eixo Y como 15
-                        }
-                    }
-                }
-            });
-        });
-    </script>
 </body> 
 
 </html>
